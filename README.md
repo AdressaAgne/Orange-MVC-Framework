@@ -27,10 +27,10 @@ Database: http://paste.ubuntu.com/16468555/
     ClassName::delete(string $id) default (null)
         Return boolean
 
-    Table::update(array [row => value])
+    Row::update(array [column => value])
         Return boolean
 
-    ClassName::update(string $id, array [row => value])
+    ClassName::update(string $id, array [column => value])
         Return boolean
 
     ClassName::insert(array [row => value])
