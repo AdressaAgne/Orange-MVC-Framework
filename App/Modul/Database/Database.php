@@ -61,7 +61,7 @@ class Database implements IteratorAggregate, ArrayAccess, Countable{
      * @return integer
      */
     public function count(){
-        return count($this->routes);
+        return count($this);
     }
     
 }

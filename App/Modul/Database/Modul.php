@@ -20,7 +20,8 @@ class Modul {
         self::$table = strtolower(self::$table[count(self::$table) - 1]);
         
         try {
-            $dns = 'mysql:host='.Config::$db['host'].';dbname='.Config::$db['database'];
+            $dns = 'mysql:host='.Config::$db['host'];
+            $dns .= ';dbname='.Config::$db['database'];
             self::$db = new PDO($dns, Config::$db['username'], Config::$db['password']);
             self::$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         } catch (PDOException $e) {
@@ -65,6 +66,7 @@ class Modul {
         $modul = new Modul(static::class);
         return new Table($modul::query('SELECT '.implode(', ', $rows).' FROM '.$modul::$table)->fetchAll());
     }
+    
     /**
      * Select $rows from static::class WHERE $where = $value
      * $rows, $where need to be injected.
