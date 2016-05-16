@@ -20,13 +20,7 @@ $items[1]
 $images
 <pre><?php
     foreach($images as $key => $image){
-        print_r($image->timestamp);
-        
-        
-        $image->timestamp = '<br>klokka 4';
-        
-        
-        print_r($image->timestamp);
+        print_r($image);
     }
 ?></pre>
 
