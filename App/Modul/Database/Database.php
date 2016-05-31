@@ -14,7 +14,7 @@ class Database implements IteratorAggregate, ArrayAccess, Countable{
      * @return value
      */
     public function getIterator(){
-        return new ArrayIterator($this);
+        return new ArrayIterator($this->rows);
     }
     
     /**
@@ -24,9 +24,9 @@ class Database implements IteratorAggregate, ArrayAccess, Countable{
      */
     public function offsetSet($offset, $value) {
         if (is_null($offset)) {
-            $this->container[] = $value;
+            $this->rows[] = $value;
         } else {
-            $this->container[$offset] = $value;
+            $this->rows[$offset] = $value;
         }
     }
 
@@ -36,7 +36,7 @@ class Database implements IteratorAggregate, ArrayAccess, Countable{
      * @return boolean 
      */
     public function offsetExists($offset) {
-        return isset($this->{$offset});
+        return isset($this->rows[$offset]);
     }
 
     /**
@@ -44,7 +44,7 @@ class Database implements IteratorAggregate, ArrayAccess, Countable{
      * @param integer $offset
      */
     public function offsetUnset($offset) {
-        unset($this->{$offset});
+        unset($this->rows[$offset]);
     }
 
     /**
@@ -53,7 +53,7 @@ class Database implements IteratorAggregate, ArrayAccess, Countable{
      * @return value   
      */
     public function offsetGet($offset) {
-        return isset($this->{$offset}) ? $this->{$offset} : null;
+        return isset($this->rows[$offset]) ? $this->rows[$offset] : null;
     }
     
     /**
@@ -61,7 +61,21 @@ class Database implements IteratorAggregate, ArrayAccess, Countable{
      * @return integer
      */
     public function count(){
-        return count($this);
+        return count($this->rows);
+    }
+    
+    public function __call($func, $args){
+        dd($func."(".implode(', ', $args).") is not a method of ".__CLASS__);
+    }
+    
+    public function __toString(){
+        return print_r($this->rows, true);
+    }
+    
+    public function __get($offset){
+        if(array_key_exists($offset, $this->rows)) {
+            return $this->rows[$offset];
+        }
     }
     
 }

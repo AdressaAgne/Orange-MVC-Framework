@@ -1,28 +1,28 @@
-<p>This is the first page</p>
+<?php 
+/**
+*   Page setup
+*/
+layout('layouts.head', [
+    '__title' => 'ball title' 
+]);
 
-<p>This is my var: </p>
-
-$items
-
-<pre><?= print_r($items, true) ?></pre>
-
-foreach $items as $item : $item->name
-
-<pre><?php foreach($items as $key => $item){
-        print_r($item->name."\n");
-} ?></pre>
-
-$items[1]
-
-<pre><?= print_r($items[1], true) ?></pre>
+?>
 
 
-$images
-<pre><?php
-    foreach($images as $key => $image){
-        print_r($image);
-    }
-?></pre>
+<h1>Loopen</h1>
+<pre><?= $images ?></pre>
+
+<h1>$_POST</h1>
+<pre>
+<?= print_r($_POST, true) ?>
+</pre>
+<form action="" method="post">
+    <input type="submit" value="send" name="subittetButton">
+</form>
 
 
-<a href="/test">Second page</a>
+<?php 
+
+layout('layouts.foot');
+
+?>

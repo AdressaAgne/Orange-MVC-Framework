@@ -52,9 +52,8 @@ class Modul {
         if($args !== null){
             self::arrayBinder($query, $args);
         }
-        $query->execute();
-            
-        return $query;
+        
+        return $query->execute() ? $query : false;
     }
     
     /**
@@ -62,9 +61,9 @@ class Modul {
      * @param  array  [$rows                  = ['*']]
      * @return object Table[Row object] Object
      */
-    public static function all($rows = ['*']){
-        $modul = new Modul(static::class);
-        return new Table($modul::query('SELECT '.implode(', ', $rows).' FROM '.$modul::$table)->fetchAll());
+    public static function all($rows = ['*'], $table = null){
+        $modul = new Modul(is_null($table) ? static::class : $table = null);
+        return new Table($modul::query('SELECT '.implode(', ', $rows).' FROM '.$modul::$table)->fetchAll(), $modul::$table);
     }
     
     /**
@@ -75,9 +74,41 @@ class Modul {
      * @param  array [$rows = ['*']] [[Description]]
      * @return object Table[Row object] object
      */
-    public static function where($where = 'id', $value = '1', $rows = ['*']){
-        $modul = new Modul(static::class);
-        return new Table($modul::query('SELECT '.implode(', ', $rows).' FROM '.$modul::$table.' WHERE '.$where.' = :value', ['value' => $value])->fetchAll());
+    public static function where($where = 'id', $value = '1', $rows = ['*'], $table = null){
+        $modul = new Modul(is_null($table) ? static::class : $table);
+        return new Table($modul::query('SELECT '.implode(', ', $rows).' FROM '.$modul::$table.' WHERE '.$where.' = :value', ['value' => $value])->fetchAll(), $modul::$table);
+    }
+    
+//    public static function one($rows = ['*']){
+//        $modul = new Modul(static::class);
+//        return new Table();
+//    }
+    
+    /**
+     * Delete a row from a table
+     * @param  string       [$col = 'id']   col name
+     * @param  string       [$val = 0]      Value of col to delete
+     * @param  string       [$table = null] Table name
+     * @return object/false 
+     */
+    public function deleteWhere($col = 'id', $val = 0, $table = null){
+        $modul = new Modul(is_null($table) ? static::class : $table);
+        return $modul::query("DELETE FROM {$modul::$table} WHERE {$col} = :val", ['val' => $val]);
+    }
+    
+    
+    public static function insert(array $data, $table = null){
+        $modul = new Modul(is_null($table) ? static::class : $table);
+        $rows = [];
+        $placeholder = [];
+        $values = [];
+        foreach($data as $key => $value){
+            $rows[] = $key;
+            $placeholder[] = ":".$key;
+        }
+        $rows = implode(",", $rows);
+        $placeholder = implode(",", $placeholder);
+        return $modul::query("INSERT INTO {$modul::$table} ({$rows}) VALUE({$placeholder})", $data);
     }
     
 }

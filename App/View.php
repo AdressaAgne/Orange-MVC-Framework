@@ -3,8 +3,6 @@
 namespace App;
 
 class View {
-    
-    
     public static function make($url, $vars = null){
         $url = preg_replace("/\\./uimx", "/", $url);
         return self::includeFile("view/{$url}.php", $vars);
