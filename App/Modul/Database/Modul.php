@@ -91,7 +91,7 @@ class Modul {
      * @param  string       [$table = null] Table name
      * @return object/false 
      */
-    public function deleteWhere($col = 'id', $val = 0, $table = null){
+    public static function deleteWhere($col = 'id', $val = 0, $table = null){
         $modul = new Modul(is_null($table) ? static::class : $table);
         return $modul::query("DELETE FROM {$modul::$table} WHERE {$col} = :val", ['val' => $val]);
     }

@@ -2,12 +2,13 @@
 
 namespace App\Modul\Database;
 
-use IteratorAggregate;
-use ArrayIterator;
-use ArrayAccess;
-use Countable;
+use IteratorAggregate,
+    JsonSerializable,
+    ArrayIterator,
+    ArrayAccess,
+    Countable;
 
-class Database implements IteratorAggregate, ArrayAccess, Countable{
+class Database implements IteratorAggregate, ArrayAccess, Countable, JsonSerializable{
    
     /**
      * Do a foreach loop on the object
@@ -76,6 +77,13 @@ class Database implements IteratorAggregate, ArrayAccess, Countable{
         if(array_key_exists($offset, $this->rows)) {
             return $this->rows[$offset];
         }
+    }
+    /**
+     * json_encode
+     * @return [[Type]] [[Description]]
+     */
+    public function jsonSerialize() {
+        return $this->rows;
     }
     
 }

@@ -1,35 +1,48 @@
 <?php
 
-namespace App;
+namespace App\Routes;
 
-use \App\Routes as Routes;
+use \App\Routes\Routes as Routes;
 use \App\Config as Config;
 
 class Direct extends Routes{
     
     public function __construct($route, $callback, $type){
-        if($type == 'get'){
-            parent::$routes[$route] = Config::$controllers.$callback;
-        }
-        if($type == 'post'){
-            parent::$post[$route] = Config::$controllers.$callback;
-        }
-        
-    }
+        parent::$routes[$type][$route] = Config::$controllers.$callback;
 
+    }
+    
+     
+    public static function re($page){
+        header("location: {$page}");
+    }
+    
     /**
      * Create a new Direct
      * @param  integer  $a URI
      * @param  callback $b 
      * @return object   Direct Object
      */
-    public static function to($a, $b){
+    public static function get($a, $b){
         return new Direct($a, $b, 'get');
+    }
+    
+    public static function delete($a, $b){
+        return new Direct($a, $b, 'delete');
+    }
+    
+    public static function update($a, $b){
+        return new Direct($a, $b, 'update');
     }
    
     public static function post($a, $b){
         return new Direct($a, $b, 'post');
     }
+    
+    public static function ball($a, $b){
+        return new Direct($a, $b, 'error');
+    }
+    
     
     /**
      * Gets called when a method on \App\Direct does not exist

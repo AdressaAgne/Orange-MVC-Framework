@@ -27,7 +27,17 @@ class Table extends Database{
         return $arr[count($arr) - 1];
     }
     
-    public function desc(){
+    public function where($search, $col = 'id'){
+        foreach($this->rows as $key => $val){
+            if($val->{$col} == $search){
+                return $val;
+            }
+        }
+        
+        return null;
+    }
+    
+    public function desc($row = 'id', $desc = false){
         arsort($this->rows);
         return $this;
     }

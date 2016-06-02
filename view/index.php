@@ -1,28 +1,25 @@
-<?php 
-/**
-*   Page setup
-*/
-layout('layouts.head', [
-    '__title' => 'ball title' 
-]);
+@layout('layouts.head')
 
-?>
+{! Form::open('/create') !}
+    <input type="submit" name="submit" value="Create">
+{! Form::close() !}
 
-
-<h1>Loopen</h1>
-<pre><?= $images ?></pre>
-
-<h1>$_POST</h1>
-<pre>
-<?= print_r($_POST, true) ?>
-</pre>
-<form action="" method="post">
-    <input type="submit" value="send" name="subittetButton">
-</form>
+{! Form::open('/delete') !}
+    <input type="submit" name="submit" value="Delete">
+{! Form::close() !}
 
 
-<?php 
+@foreach($images as $key => $value)
 
-layout('layouts.foot');
+    <pre>{{ $value }}</pre>
 
-?>
+@endforeach
+
+@if(isset($images))
+
+    <h1>yo</h1>
+
+@endif
+
+
+@layout('layouts.foot')
